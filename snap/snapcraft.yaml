@@ -1,0 +1,106 @@
+name: eiskaltdcpp-dc
+version: git
+summary: EiskaltDC++ with GUI based on Qt
+description: |
+  EiskaltDC++ is a cross-platform program that uses the Direct Connect and ADC
+  protocols. It is compatible with DC++, FlylinkDC++, LinuxDC++ and other DC
+  clients. EiskaltDC++ also interoperates with all common DC hub software.
+
+grade: stable
+confinement: strict
+
+base: core18
+
+version-script: |
+  set -x
+  cd /root/parts/eiskalt/src
+  git describe --tags
+
+apps:
+  eiskaltdcpp-dc-env:
+    command: env
+    environment:
+      HOME: "$SNAP_USER_COMMON"
+  eiskaltdcpp-dc:
+    command: ./bin/desktop-launch $SNAP/bin/eiskaltdcpp-dc
+    desktop: share/applications/eiskaltdcpp-qt.desktop
+    environment:
+      DISABLE_WAYLAND: 1
+      WAYLAND_DISPLAY: no-display
+      QTCOMPOSE: $SNAP/usr/share/X11/locale
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio
+      HOME: "$SNAP_USER_COMMON"
+    plugs:
+      - desktop
+      - desktop-legacy
+      - gsettings
+      - home
+      - network
+      - network-bind
+      - network-manager
+      - removable-media
+      - pulseaudio
+      - unity7
+
+parts:
+  eiskalt:
+    plugin: cmake
+    #source: .
+    source: https://github.com/eiskaltdcpp/eiskaltdcpp.git
+    build-packages:
+      - libboost-dev
+      - liblua5.1-dev
+      - libpcre3-dev
+      - libbz2-dev
+      - zlib1g-dev
+      - libssl-dev
+      - libaspell-dev
+      - gettext
+      - libidn11-dev
+      - libminiupnpc-dev
+      - libboost-system-dev
+      - qtbase5-dev
+      - qttools5-dev
+      - qtmultimedia5-dev
+    configflags:
+      - -DFORCE_XDG=OFF # use $HOME for configs, which we map to $SNAP_USER_COMMON
+    stage-packages:
+      - libboost-system1.65.1
+      - libqt5concurrent5
+      - libqt5sql5
+      - libqt5sql5-sqlite
+      - libqt5xml5
+      - libaspell15
+      - liblua5.1-0
+      - libpcrecpp0v5
+      - libpulse0
+      - miniupnpc
+    override-prime: |
+        snapcraftctl prime
+        sed -i "s|^Icon=.*|Icon=\${SNAP}/share/icons/hicolor/128x128/apps/eiskaltdcpp.png|g" share/applications/eiskaltdcpp-qt.desktop
+    organize:
+      bin/eiskaltdcpp-qt: bin/eiskaltdcpp-dc
+    after: [desktop-qt5]
+  desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+      - qtbase5-dev
+      - dpkg-dev
+    stage-packages:
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libqt5gui5
+      - libqt5widgets5
+      - libqt5multimedia5
+      - libgdk-pixbuf2.0-0
+      - libqt5svg5 # for loading icon themes which are svg
+      - try: [appmenu-qt5] # not available on core18
+      - locales-all
