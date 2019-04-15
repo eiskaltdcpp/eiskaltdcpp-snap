@@ -9,15 +9,15 @@ description: |
 grade: stable
 confinement: strict
 
-architectures:
-  - build-on: amd64
+architectures: [amd64]
 
 base: core18
 
 version-script: |
   set -x
-  cd /root/parts/eiskalt/src
-  git describe --tags
+  cd $SNAPCRAFT_PRIME/../parts/eiskalt/src
+  vers=`git describe --tags`
+  echo ${vers#"v"}
 
 apps:
   eiskaltdcpp-dc-env:
