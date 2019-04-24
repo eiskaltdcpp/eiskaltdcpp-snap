@@ -1,4 +1,4 @@
-name: eiskaltdcpp-dc
+name: eiskaltdcpp
 version: git
 summary: EiskaltDC++ with GUI based on Qt
 description: |
@@ -20,12 +20,12 @@ version-script: |
   echo ${vers#"v"}
 
 apps:
-  eiskaltdcpp-dc-env:
+  eiskaltdcpp-env:
     command: env
     environment:
       HOME: "$SNAP_USER_COMMON"
-  eiskaltdcpp-dc:
-    command: ./bin/desktop-launch $SNAP/bin/eiskaltdcpp-dc
+  eiskaltdcpp:
+    command: ./bin/desktop-launch $SNAP/bin/eiskaltdcpp
     desktop: share/applications/eiskaltdcpp-qt.desktop
     environment:
       DISABLE_WAYLAND: 1
@@ -82,7 +82,7 @@ parts:
         snapcraftctl prime
         sed -i "s|^Icon=.*|Icon=\${SNAP}/share/icons/hicolor/128x128/apps/eiskaltdcpp.png|g" share/applications/eiskaltdcpp-qt.desktop
     organize:
-      bin/eiskaltdcpp-qt: bin/eiskaltdcpp-dc
+      bin/eiskaltdcpp-qt: bin/eiskaltdcpp
     after: [desktop-qt5]
   desktop-qt5:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
