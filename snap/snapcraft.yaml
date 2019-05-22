@@ -33,8 +33,8 @@ apps:
     environment:
       HOME: "$SNAP_USER_COMMON"
   eiskaltdcpp:
-    command: ./bin/desktop-launch $SNAP/bin/eiskaltdcpp
-    desktop: share/applications/eiskaltdcpp-qt.desktop
+    command: ./bin/desktop-launch $SNAP/usr/bin/eiskaltdcpp
+    desktop: usr/share/applications/eiskaltdcpp-qt.desktop
     environment:
       DISABLE_WAYLAND: 1
       WAYLAND_DISPLAY: no-display
@@ -74,7 +74,9 @@ parts:
       - qttools5-dev
       - qtmultimedia5-dev
     configflags:
+      - -DCMAKE_INSTALL_PREFIX=/usr
       - -DFORCE_XDG=OFF # use $HOME for configs, which we map to $SNAP_USER_COMMON
+      - -DWITH_LUASCRIPTS=ON
     stage-packages:
       - libboost-system1.65.1
       - libqt5concurrent5
@@ -86,11 +88,12 @@ parts:
       - libpcrecpp0v5
       - libpulse0
       - miniupnpc
+      - qttranslations5-l10n
     override-prime: |
         snapcraftctl prime
-        sed -i "s|^Icon=.*|Icon=\${SNAP}/share/icons/hicolor/128x128/apps/eiskaltdcpp.png|g" share/applications/eiskaltdcpp-qt.desktop
+        sed -i "s|^Icon=.*|Icon=\${SNAP}/usr/share/icons/hicolor/128x128/apps/eiskaltdcpp.png|g" usr/share/applications/eiskaltdcpp-qt.desktop
     organize:
-      bin/eiskaltdcpp-qt: bin/eiskaltdcpp
+      usr/bin/eiskaltdcpp-qt: usr/bin/eiskaltdcpp
     after: [desktop-qt5]
   desktop-qt5:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
