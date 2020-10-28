@@ -70,7 +70,6 @@ parts:
       - gettext
       - libidn11-dev
       - libminiupnpc-dev
-      - libboost-system-dev
       - qtbase5-dev
       - qttools5-dev
       - qtmultimedia5-dev
@@ -78,8 +77,8 @@ parts:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DFORCE_XDG=OFF # use $HOME for configs, which we map to $SNAP_USER_COMMON
       - -DWITH_LUASCRIPTS=ON
+      - -DLINK=STATIC
     stage-packages:
-      - libboost-system1.65.1
       - libqt5concurrent5
       - libqt5sql5
       - libqt5sql5-sqlite
