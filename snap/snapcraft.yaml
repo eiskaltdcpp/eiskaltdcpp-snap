@@ -60,7 +60,6 @@ parts:
     #source: .
     source: https://github.com/eiskaltdcpp/eiskaltdcpp.git
     build-packages:
-      - libboost-dev
       - liblua5.1-dev
       - libpcre3-dev
       - libbz2-dev
