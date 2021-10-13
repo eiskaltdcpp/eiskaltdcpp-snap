@@ -67,7 +67,7 @@ parts:
       - libssl-dev
       - libaspell-dev
       - gettext
-      - libidn11-dev
+      - libidn2-dev
       - libminiupnpc-dev
       - qtbase5-dev
       - qttools5-dev
