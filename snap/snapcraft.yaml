@@ -61,7 +61,7 @@ parts:
     source: https://github.com/eiskaltdcpp/eiskaltdcpp.git
     build-packages:
       - libattr1-dev
-      - liblua5.2-dev
+      - liblua5.1-0-dev
       - libpcre3-dev
       - libbz2-dev
       - zlib1g-dev
@@ -85,7 +85,7 @@ parts:
       - libqt5sql5-sqlite
       - libqt5xml5
       - libaspell15
-      - liblua5.2-0
+      - liblua5.1-0
       - libpcrecpp0v5
       - libpulse0
       - miniupnpc
