@@ -62,7 +62,7 @@ parts:
     build-packages:
       - libattr1-dev
       - liblua5.1-0-dev
-      - libpcre3-dev
+      - libpcre2-dev
       - libbz2-dev
       - zlib1g-dev
       - libssl-dev
@@ -86,7 +86,7 @@ parts:
       - libqt5xml5
       - libaspell15
       - liblua5.1-0
-      - libpcrecpp0v5
+      - libpcre2-16-0
       - libpulse0
       - miniupnpc
       - qttranslations5-l10n
