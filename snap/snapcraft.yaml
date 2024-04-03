@@ -56,9 +56,16 @@ apps:
 
 parts:
   eiskalt:
-    plugin: cmake
+    after: [desktop-qt5]
     #source: .
     source: https://github.com/eiskaltdcpp/eiskaltdcpp.git
+    plugin: cmake
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DFORCE_XDG=OFF # use $HOME for configs, which we map to $SNAP_USER_COMMON
+      - -DLINK=STATIC
+      - -DUSE_XATTR=ON
+      - -DWITH_LUASCRIPTS=ON
     build-packages:
       - gettext
       - libattr1-dev
@@ -73,12 +80,6 @@ parts:
       - qtmultimedia5-dev
       - qttools5-dev
       - zlib1g-dev
-    configflags:
-      - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DFORCE_XDG=OFF # use $HOME for configs, which we map to $SNAP_USER_COMMON
-      - -DLINK=STATIC
-      - -DUSE_XATTR=ON
-      - -DWITH_LUASCRIPTS=ON
     stage-packages:
       - libaspell15
       - liblua5.1-0
@@ -95,7 +96,6 @@ parts:
         sed -i "s|^Icon=.*|Icon=\${SNAP}/usr/share/icons/hicolor/128x128/apps/eiskaltdcpp.png|g" usr/share/applications/eiskaltdcpp-qt.desktop
     organize:
       usr/bin/eiskaltdcpp-qt: usr/bin/eiskaltdcpp
-    after: [desktop-qt5]
   desktop-qt5:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
     source-subdir: qt
